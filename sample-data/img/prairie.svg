@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="skyP" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#fdeec2"/><stop offset="100%" stop-color="#f6c85f"/>
+  </linearGradient></defs>
+  <rect width="400" height="220" fill="url(#skyP)"/>
+  <circle cx="80" cy="60" r="30" fill="#fff6d8"/>
+  <path d="M0,150 Q100,110 200,150 T400,150 V220 H0 Z" fill="#8fae4a"/>
+  <path d="M0,180 Q120,150 250,180 T400,175 V220 H0 Z" fill="#6f9236"/>
+  <text x="20" y="205" fill="#5443" font-size="12" font-family="Georgia, serif" font-style="italic">Illustration libre — clairière</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="skyR" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#3b4252"/><stop offset="100%" stop-color="#8fa0b3"/>
+  </linearGradient></defs>
+  <rect width="400" height="220" fill="url(#skyR)"/>
+  <polygon points="0,220 90,60 180,220" fill="#5b6472"/>
+  <polygon points="120,220 230,30 340,220" fill="#454e5c"/>
+  <polygon points="260,220 330,110 400,220" fill="#5b6472"/>
+  <polygon points="200,60 230,30 260,60" fill="#eef2f5"/>
+  <text x="20" y="205" fill="#fff8" font-size="12" font-family="Georgia, serif" font-style="italic">Illustration libre — sommet rocheux</text>
+</svg>

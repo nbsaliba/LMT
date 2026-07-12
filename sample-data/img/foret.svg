@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="skyF" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#1b3a2f"/><stop offset="100%" stop-color="#4d7a5e"/>
+  </linearGradient></defs>
+  <rect width="400" height="220" fill="url(#skyF)"/>
+  <circle cx="320" cy="50" r="26" fill="#ffe9a8" opacity="0.8"/>
+  <polygon points="0,220 40,120 80,220" fill="#123322"/>
+  <polygon points="60,220 110,90 160,220" fill="#16412a"/>
+  <polygon points="140,220 190,110 240,220" fill="#123322"/>
+  <polygon points="220,220 280,95 340,220" fill="#16412a"/>
+  <polygon points="300,220 350,130 400,220" fill="#123322"/>
+  <text x="20" y="205" fill="#eee8" font-size="12" font-family="Georgia, serif" font-style="italic">Illustration libre — orée du bois</text>
+</svg>
