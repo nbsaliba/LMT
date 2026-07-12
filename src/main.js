@@ -20,19 +20,41 @@ import { Pedometer } from './ui/pedometer.js';
 const $ = (id) => document.getElementById(id);
 
 const _warnedOnce = new Set();
-/** Exécute fn en isolant toute exception : log en console + avertissement
- * discret une seule fois par `label`, sans jamais interrompre l'appelant. */
+// ----------------------------------------------------------------------
+// ⚠️ PATCH DE DIAGNOSTIC TEMPORAIRE ⚠️
+// Le message d'erreur réel (et le nom du fichier/ligne d'origine si le
+// navigateur le fournit dans la pile) est maintenant affiché directement
+// dans la bannière de statut, pour pouvoir le lire sans ouvrir la console
+// (utile sur smartphone). Le silencieux « une fois par label » est aussi
+// désactivé : chaque déclenchement réaffiche le message, pour voir si le
+// problème est systématique ou intermittent.
+// À retirer une fois la cause identifiée (remettre la version d'origine
+// ci-dessous en commentaire).
+// ----------------------------------------------------------------------
 function safely(label, fn) {
   try {
     fn();
   } catch (err) {
     console.error(`[${label}]`, err);
-    if (!_warnedOnce.has(label)) {
-      _warnedOnce.add(label);
-      showTransientWarning(`Problème (${label}) — voir console`);
-    }
+    const location = (err.stack || '').split('\n')[1]?.trim() ?? '';
+    showTransientWarning(`[DIAGNOSTIC] Problème (${label}) : ${err.message} ${location}`);
   }
 }
+// ----------------------------------------------------------------------
+// Version d'origine (à restaurer après diagnostic) :
+//
+// function safely(label, fn) {
+//   try {
+//     fn();
+//   } catch (err) {
+//     console.error(`[${label}]`, err);
+//     if (!_warnedOnce.has(label)) {
+//       _warnedOnce.add(label);
+//       showTransientWarning(`Problème (${label}) — voir console`);
+//     }
+//   }
+// }
+// ----------------------------------------------------------------------
 
 function showTransientWarning(msg) {
   const el = $('status-banner');
@@ -40,7 +62,7 @@ function showTransientWarning(msg) {
   el.style.background = '#7a5a22';
   el.style.display = 'block';
   clearTimeout(showTransientWarning._t);
-  showTransientWarning._t = setTimeout(() => { el.style.display = 'none'; }, 4000);
+  showTransientWarning._t = setTimeout(() => { el.style.display = 'none'; }, 8000); // ⚠️ rallongé pour le diagnostic (normalement 4000)
 }
 
 // Détecté tout de suite (avant le chargement des données) pour que le CSS
@@ -192,9 +214,18 @@ async function main() {
 
     // La mise à jour caméra est la partie critique : elle ne doit jamais être
     // court-circuitée par une erreur dans une fonctionnalité annexe.
-    const { pos, look } = route.cameraPoseAt(progress);
-    camera.position.copy(pos);
-    camera.lookAt(look);
+    // ⚠️ DIAGNOSTIC TEMPORAIRE : normalement CETTE partie n'est PAS protégée
+    // par safely() (voir commentaire ci-dessus). On l'enveloppe ici
+    // exceptionnellement, avec son propre label, uniquement pour savoir si
+    // c'est elle qui plante et laisser quand même le reste (profil, fondu,
+    // narration) s'exécuter pour un diagnostic complet en un seul passage.
+    // À retirer après diagnostic (remettre les 3 lignes non protégées).
+    let pos, look;
+    safely('caméra', () => {
+      ({ pos, look } = route.cameraPoseAt(progress));
+      camera.position.copy(pos);
+      camera.lookAt(look);
+    });
 
     // Chaque fonctionnalité annexe est isolée : si l'une d'elles lève une
     // erreur (donnée inattendue dans vos fichiers, capteur, audio…), les
